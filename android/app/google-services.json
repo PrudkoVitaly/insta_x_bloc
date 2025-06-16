@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "123727316886",
+    "project_id": "instaxbloc-5251f",
+    "storage_bucket": "instaxbloc-5251f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123727316886:android:71a9935a55636a3581ffb7",
+        "android_client_info": {
+          "package_name": "com.example.insta_x_bloc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjS2YlHPeIVh8jZ78HeYoR8h7dah4anl4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
