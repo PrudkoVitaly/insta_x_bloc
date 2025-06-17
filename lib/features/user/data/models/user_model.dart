@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:insta_x_bloc/features/user/domain/entities/user.dart';
 
 class UserModel extends UserEntity {
@@ -31,6 +32,15 @@ class UserModel extends UserEntity {
       'email': email,
       'picture': picture,
     };
+  }
+
+  factory UserModel.fromFirebaseUser(firebase_auth.User user) {
+    return UserModel(
+      id: user.uid,
+      name: user.displayName ?? '',
+      email: user.email ?? '',
+      picture: user.photoURL,
+    );
   }
 
   // /// Convert a UserModel to a User entity
