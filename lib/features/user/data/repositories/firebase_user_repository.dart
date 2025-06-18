@@ -14,10 +14,10 @@ class FirebaseUserRepository implements UserRepository {
         usersCollection = FirebaseFirestore.instance.collection("users");
 
   @override
-  Stream<User?> get myUser {
+  Stream<UserEntity?> get myUser {
     return _auth.authStateChanges().map((firebaseUser) {
       final user = firebaseUser;
-      return user;
+      return UserModel.fromFirebaseUser(user!);
     });
   }
 

@@ -1,8 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:insta_x_bloc/features/user/domain/entities/user.dart';
 
 abstract class UserRepository {
-  Stream<User?> get myUser;
+  Stream<UserEntity?> get myUser;
 
   Future<UserEntity> signUp({required String email, required String password});
 

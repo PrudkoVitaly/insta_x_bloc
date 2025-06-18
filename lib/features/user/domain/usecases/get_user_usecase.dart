@@ -1,12 +1,12 @@
 import 'package:insta_x_bloc/features/user/domain/entities/user.dart';
 import 'package:insta_x_bloc/features/user/domain/repositories/user_repository.dart';
 
-class GetUserUseCase {
+class UserStreamUseCase {
   final UserRepository userRepository;
 
-  GetUserUseCase(this.userRepository);
+  UserStreamUseCase({required this.userRepository});
 
-  Future<UserEntity> call(String userId) async {
-    return await userRepository.getMyUser(userId);
+  Stream<UserEntity?> call() {
+    return userRepository.myUser;
   }
 }
