@@ -15,12 +15,14 @@ class EmailAlreadyInUseFailure extends UserFailures {
 }
 
 class WeakPasswordFailure extends UserFailures {
+  WeakPasswordFailure(String s);
+
   @override
   String get message => "Пароль слишком слабый.";
 }
 
 class InvalidEmailFailure extends UserFailures {
-  const InvalidEmailFailure();
+  const InvalidEmailFailure(String message);
   @override
   String get message => "Недействительный адрес электронной почты.";
 }
@@ -46,4 +48,11 @@ class UnknownUserFailure extends UserFailures {
 
   @override
   List<Object?> get props => [errorMessage];
+}
+
+class InvalidInputFailure extends UserFailures {
+  final String errorMessage;
+  const InvalidInputFailure({required this.errorMessage});
+  @override
+  String get message => errorMessage;
 }

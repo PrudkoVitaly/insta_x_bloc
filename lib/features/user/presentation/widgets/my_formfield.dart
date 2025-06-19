@@ -9,6 +9,7 @@ class MyFormField extends StatefulWidget {
   final VoidCallback? onTap;
   final IconData? prefixIconData;
   final Color? prefixIconColor;
+  final Widget? prefixIcon;
   final String? Function(String?)? validator;
   final FocusNode? focusNode;
   final String? errorMessage;
@@ -24,6 +25,7 @@ class MyFormField extends StatefulWidget {
       this.onTap,
       this.prefixIconData,
       this.prefixIconColor,
+      this.prefixIcon,
       this.validator,
       this.focusNode,
       this.errorMessage,

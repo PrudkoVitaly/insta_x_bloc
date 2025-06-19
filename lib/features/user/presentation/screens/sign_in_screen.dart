@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:insta_x_bloc/core/utils/reg_ex.dart';
+import 'package:insta_x_bloc/features/user/presentation/bloc/sign_in/sign_in_bloc.dart';
+import 'package:insta_x_bloc/features/user/presentation/bloc/sign_in/sign_in_event.dart';
+import 'package:insta_x_bloc/features/user/presentation/bloc/sign_in/sign_in_state.dart';
+import 'package:insta_x_bloc/features/user/presentation/screens/home_screen.dart';
 import 'package:insta_x_bloc/features/user/presentation/widgets/my_formfield.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -38,12 +43,22 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Form(
-            key: _formKey,
-            child: Column(
+    return BlocListener<SignInBloc, SignInState>(
+      listener: (context, state) {
+        if (state.isFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.errorMessage!)),
+          );
+        }
+        if (state.isLoading) {
+          signInReqired = true;
+        }
+      },
+      child: Form(
+        key: _formKey,
+        child: BlocBuilder<SignInBloc, SignInState>(
+          builder: (context, state) {
+            return Column(
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.9,
@@ -101,13 +116,20 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                !signInReqired
+                !state.isLoading
                     ? SizedBox(
                         width: MediaQuery.of(context).size.width * 0.9,
                         height: 50,
                         child: TextButton(
                           onPressed: () {
-                            if (_formKey.currentState!.validate()) {}
+                            if (_formKey.currentState!.validate()) {
+                              context.read<SignInBloc>().add(
+                                    SignInWithEmailAndPasswordEvent(
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                    ),
+                                  );
+                            }
                           },
                           style: TextButton.styleFrom(
                               elevation: 3.0,
@@ -132,9 +154,9 @@ class _SignInScreenState extends State<SignInScreen> {
                       )
                     : const Center(child: CircularProgressIndicator()),
               ],
-            ),
-          ),
-        ],
+            );
+          },
+        ),
       ),
     );
   }

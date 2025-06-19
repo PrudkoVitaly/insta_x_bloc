@@ -23,7 +23,7 @@ class FirebaseUserRepository implements UserRepository {
 
   @override
   Future<UserEntity> signUp(
-      {required String email, required String password}) async {
+      {required String email, required String password, String? name}) async {
     try {
       final credential = await _auth.createUserWithEmailAndPassword(
         email: email,
@@ -40,10 +40,10 @@ class FirebaseUserRepository implements UserRepository {
         throw EmailAlreadyInUseFailure();
       }
       if (e.code == 'weak-password') {
-        throw WeakPasswordFailure();
+        throw WeakPasswordFailure('Пароль слишком слабый');
       }
       if (e.code == 'invalid-email') {
-        throw const InvalidEmailFailure();
+        throw const InvalidEmailFailure('Неверный формат email');
       }
       throw UnknownUserFailure(e.message ?? 'Неизвестная ошибка регистрации');
     } catch (e) {
@@ -74,7 +74,7 @@ class FirebaseUserRepository implements UserRepository {
         throw const WrongPasswordFailure();
       }
       if (e.code == 'invalid-email') {
-        throw const InvalidEmailFailure();
+        throw const InvalidEmailFailure('Неверный формат email');
       }
       if (e.code == 'user-disabled') {
         throw const UnknownUserFailure();

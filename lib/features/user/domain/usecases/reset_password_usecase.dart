@@ -6,8 +6,9 @@ class ResetPasswordUseCase {
 
   ResetPasswordUseCase(this.userRepository);
 
-  Future<void> call(String email) async {
-    if (email.isEmpty) throw const InvalidEmailFailure();
-    await userRepository.resetPassword(email);
+  Future<void> call(String password) async {
+    if (password.isEmpty)
+      throw const InvalidEmailFailure('Пароль не может быть пустым');
+    await userRepository.resetPassword(password);
   }
 }
