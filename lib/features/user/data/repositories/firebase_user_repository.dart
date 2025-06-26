@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:insta_x_bloc/features/user/data/models/user_model.dart';
 import 'package:insta_x_bloc/features/user/domain/entities/user.dart';
 import 'package:insta_x_bloc/features/user/domain/failures/user_failures.dart';
@@ -34,6 +37,17 @@ class FirebaseUserRepository implements UserRepository {
         throw const UnknownUserFailure(
             'Пользователь является нулевым после регистрации');
       }
+      // Создаём UserEntity
+      final userEntity = UserEntity(
+        id: user.uid,
+        name: name ?? '',
+        email: user.email ?? '',
+        picture: '',
+      );
+
+      // Сохраняем пользователя в Firestore
+      await setUserData(userEntity);
+
       return UserModel.fromFirebaseUser(user);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
@@ -63,6 +77,18 @@ class FirebaseUserRepository implements UserRepository {
       final user = credential.user;
       if (user == null) {
         throw const UserNotFoundFailure();
+      }
+
+      // Проверяем, есть ли документ пользователя в Firestore
+      final doc = await usersCollection.doc(user.uid).get();
+      if (!doc.exists) {
+        final userEntity = UserEntity(
+          id: user.uid,
+          name: user.displayName ?? '',
+          email: user.email ?? '',
+          picture: '',
+        );
+        await setUserData(userEntity);
       }
 
       return UserModel.fromFirebaseUser(user);
@@ -137,6 +163,22 @@ class FirebaseUserRepository implements UserRepository {
           e.message ?? 'Ошибка сохранения данных пользователя');
     } catch (e) {
       throw UnknownUserFailure(e.toString());
+    }
+  }
+
+  @override
+  Future<String> uploadPicture(
+      {required String userId, required String file}) async {
+    try {
+      final imageFile = File(file);
+      final firebaseStoreRef =
+          FirebaseStorage.instance.ref().child('userId/PP/${userId}_lead');
+      await firebaseStoreRef.putFile(imageFile);
+      String url = await firebaseStoreRef.getDownloadURL();
+      await usersCollection.doc(userId).update({'picture': url});
+      return url;
+    } catch (e) {
+      throw UploadPictureFailure(message: e.toString());
     }
   }
 }

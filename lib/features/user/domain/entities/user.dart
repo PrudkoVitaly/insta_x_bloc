@@ -4,9 +4,9 @@ class UserEntity extends Equatable {
   final String id;
   final String name;
   final String email;
-  final String? picture;
+  String? picture;
 
-  const UserEntity({
+  UserEntity({
     required this.id,
     required this.name,
     required this.email,
@@ -14,7 +14,7 @@ class UserEntity extends Equatable {
   });
 
   /// Empty user
-  static const empty = UserEntity(
+  static UserEntity empty = UserEntity(
     id: '',
     name: '',
     email: '',

@@ -5,7 +5,6 @@ import 'package:insta_x_bloc/core/utils/reg_ex.dart';
 import 'package:insta_x_bloc/features/user/presentation/bloc/sign_in/sign_in_bloc.dart';
 import 'package:insta_x_bloc/features/user/presentation/bloc/sign_in/sign_in_event.dart';
 import 'package:insta_x_bloc/features/user/presentation/bloc/sign_in/sign_in_state.dart';
-import 'package:insta_x_bloc/features/user/presentation/screens/home_screen.dart';
 import 'package:insta_x_bloc/features/user/presentation/widgets/my_formfield.dart';
 
 class SignInScreen extends StatefulWidget {

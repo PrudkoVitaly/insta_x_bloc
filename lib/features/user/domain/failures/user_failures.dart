@@ -56,3 +56,17 @@ class InvalidInputFailure extends UserFailures {
   @override
   String get message => errorMessage;
 }
+
+class UploadPictureFailure implements Exception {
+  final String message;
+  UploadPictureFailure({required this.message});
+  @override
+  String toString() => 'UploadFailure: $message';
+}
+
+class MyUserFailure implements Exception {
+  final String message;
+  MyUserFailure({required this.message});
+  @override
+  String toString() => 'MyUserFailure: $message';
+}

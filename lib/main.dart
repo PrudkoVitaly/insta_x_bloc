@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:insta_x_bloc/app/app.dart';
+import 'package:insta_x_bloc/features/post/data/repositories/firebase_post_repository.dart';
 import 'package:insta_x_bloc/features/user/data/repositories/firebase_user_repository.dart';
 import 'firebase_options.dart';
 
@@ -12,6 +13,9 @@ void main() async {
   );
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(
-    MainApp(userRepository: FirebaseUserRepository()),
+    MainApp(
+      userRepository: FirebaseUserRepository(),
+      postRepository: FirebasePostRepository(),
+    ),
   );
 }

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:insta_x_bloc/features/user/domain/entities/user.dart';
 
 class UserModel extends UserEntity {
-  const UserModel({
+  UserModel({
     required String id,
     required String name,
     required String email,
